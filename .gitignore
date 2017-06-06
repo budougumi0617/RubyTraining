@@ -43,3 +43,6 @@ bower.json
 
 # Ignore IDE file
 .idea/
+
+# Ignore ruby setting
+.ruby-version
