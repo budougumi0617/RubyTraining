@@ -35,13 +35,31 @@ def score(dice)
     return 0
   end
   result = 0
+  counts = Hash.new(0)
+
   dice.each do |d|
-    if d == 5
-      result += 50
-    elsif d == 1
-      result += 100
-    end
+    counts[d] += 1
   end
+
+  counts.each { |d, count|
+    while count > 0 do
+      if d == 1 && count >= 3
+        result += 1000
+        count -= 3
+      elsif d != 1 && count >=3
+        result += d * 100
+        count -= 3
+      elsif d == 1 && count < 3
+        result += 100
+        count -= 1
+      elsif d == 5 && count < 3
+        result += 50
+        count -= 1
+      else
+        count -= 1
+      end
+    end
+  }
   result
 end
 
