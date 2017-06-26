@@ -8,9 +8,11 @@ require File.expand_path(File.dirname(__FILE__) + '/neo')
 
 class DiceSet
   attr_reader :values
+  NUM = [1, 2, 3, 4, 5, 6]
 
   def roll(n)
-    @values = [1, 2, 3, 4, 5]
+    @values = []
+    n.times {@values.push NUM.sample}
   end
 end
 
