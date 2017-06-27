@@ -1,5 +1,5 @@
 require 'test/unit'
-require 'temp_conv'
+require 'ch12/temp_conv'
 
 class TestTempConv < Test::Unit::TestCase
     def test_cels_to_fahr
