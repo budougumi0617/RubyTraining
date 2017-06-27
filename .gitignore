@@ -46,3 +46,6 @@ bower.json
 
 # Ignore ruby setting
 .ruby-version
+
+# Ignore swap file
+*.swp

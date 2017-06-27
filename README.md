@@ -1,5 +1,5 @@
 # RubyTraining
-Study Ruby by the Koans, and Rails Tutorial.
+Study Ruby by the Koans, Rails Tutorial, and some books.
 
 
 # LICENCE
@@ -18,3 +18,5 @@ https://github.com/edgecase/ruby_koans
 [Ruby On Rails Tutorials](https://www.railstutorial.org/)
 
 [Rails Tutorial[JP]](https://railstutorial.jp/)
+
+[たのしいRuby 第5版 Kindle版](http://amazon.jp/dp/B01C804DO8)
