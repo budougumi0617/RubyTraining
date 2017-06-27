@@ -20,5 +20,5 @@ ruby -v: ruby 2.0.0p648 (2015-12-16 revision 53162) [universal.x86_64-darwin16]
 ### たのしいRuby 第5版 Kindle版  
 http://amazon.jp/dp/B01C804DO8
 
-### Suport page
+### Support page
 https://tanoshiiruby.github.io/5/
