@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+cp .env.dev.sample .env.dev
+docker-compose run --rm spring rake db:create
+docker-compose run --rm spring rake db:migrate
+docker-compose up -d

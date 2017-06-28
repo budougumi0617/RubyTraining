@@ -19,6 +19,7 @@ config/secrets.yml
 # dotenv
 # TODO Comment out this rule if environment variables can be committed
 .env
+.env.dev
 
 ## Environment normalization:
 /.bundle
@@ -49,3 +50,8 @@ bower.json
 
 # Ignore swap file
 *.swp
+
+!/log/.keep
+!/tmp/.keep
+
+.DS_Store
