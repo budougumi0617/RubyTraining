@@ -1,25 +1,8 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Strudy Ruby on Rails by below book.
+{実践Ruby on Rails 4 現場のプロから学ぶ本格Webプログラミング}[http://amazon.jp/dp/B00LBPDNSY].
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
 
 * ...
 
