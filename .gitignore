@@ -51,6 +51,10 @@ bower.json
 # Ignore swap file
 *.swp
 
+/baukis/.bundle
+/baukis/vendor/bundle
+/baukis/spec/tmp
+/baukis/tmp
 /baukis/log
 !/baukis/log/.keep
 !/log/.keep
