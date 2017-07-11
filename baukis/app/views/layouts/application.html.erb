@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>App</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
-    <div id="wrapper">
-        <%= render 'shared/header' %>
-        <div id="controller">
-            <%= yield %>
+    <head>
+        <title><%= document_title %></title>
+        <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+        <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+        <%= csrf_meta_tags %>
+    </head>
+    <body>
+        <div id="wrapper">
+            <%= render 'shared/header' %>
+            <div id="controller">
+                <%= yield %>
+            </div>
+            <%= render 'shared/footer' %>
         </div>
-        <%= render 'shared/footer' %>
-    </div>
-</body>
+    </body>
 </html>
