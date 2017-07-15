@@ -1,11 +1,11 @@
-@import 
 @import 'colors';
+@import 'dimensions';
 
 div#wrapper {
     div#container {
         h1 {
             margin: 0;
-            padding: 9px 6px;
+            padding: $moderate * 1.5 $moderate;
             font-size: 16px;
             font-stretch: normal;
             background-color: $very_dark_cyan;
