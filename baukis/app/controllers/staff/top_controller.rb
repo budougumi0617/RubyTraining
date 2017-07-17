@@ -1,6 +1,6 @@
 class Staff::TopController < ApplicationController
     def index
-        raise
+        raise IpAddressRejected
         render action: 'index'
     end
 end
