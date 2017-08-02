@@ -10,18 +10,18 @@ class Admin::SessionsController < Admin::Base
 
   def create
     @form = Admin::LoginForm.new(params[:admin_login_form])
-    if @forms.email.present?
+    if @form.email.present?
       administrator = Administrator.find_by(email_for_index: @form.email.downcase)
     end
     if administrator
       if administrator.suspended?
-        render_action: 'new'
+        render action: 'new'
       else
         session[:administrator_id] = administrator.id
         redirect_to :admin_root
       end
     else
-      render_action: 'new'
+      render action: 'new'
     end
   end
 
