@@ -1,11 +1,11 @@
 Rails.application.routes.draw do
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
-  namespace :staff do
+  namespace :staff, path: '' do
     root 'top#index'
     get 'login' => 'sessions#new', as: :login
-    post 'session' => 'sessions#create', as: :session
-    delete 'session' => 'sessions#destroy'
+    resource :session, only: [ :create, :destroy ]
+    resource :acount, except: [ :new, :create, :destroy ]
   end
 
   namespace :admin do
@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     get 'login' => 'sessions#new', as: :login
     post 'session' => 'sessions#create', as: :session
     delete 'session' => 'sessions#destroy'
+    resources :staff_members
   end
 
   namespace :customer do
