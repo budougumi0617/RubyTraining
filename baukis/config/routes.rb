@@ -1,9 +1,10 @@
 Rails.application.routes.draw do
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
+  config = Rails.application.config.baukis
 
-  constraints host: 'baukis.example.com' do
-    namespace :staff, path: '' do
+  constraints host: config[:staff][:host] do
+    namespace :staff, path: config[:staff][:path] do
       root 'top#index'
       get 'login' => 'sessions#new', as: :login
       resource :session, only: [ :create, :destroy ]
@@ -11,11 +12,13 @@ Rails.application.routes.draw do
     end
   end
 
-  namespace :admin do
-    root 'top#index'
-    get 'login' => 'sessions#new', as: :login
-    resource :session, only: [ :create, :destroy ]
-    resources :staff_members
+  constraints host: config[:admin][:host] do
+    namespace :admin, path: config[:admin][:path] do
+      root 'top#index'
+      get 'login' => 'sessions#new', as: :login
+      resource :session, only: [ :create, :destroy ]
+      resources :staff_members
+    end
   end
 
   namespace :customer do
