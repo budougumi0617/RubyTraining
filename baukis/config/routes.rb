@@ -21,8 +21,10 @@ Rails.application.routes.draw do
     end
   end
 
-  namespace :customer do
-    root 'top#index'
+  constraints host: config[:customer][:host] do
+    namespace :customer, path: config[:customer][:path] do
+      root 'top#index'
+    end
   end
 
   root 'errors#routing_error'
