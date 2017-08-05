@@ -8,4 +8,8 @@ class Admin::StaffMembersController < Admin::Base
     redirect_to [:edit, :admin, staff_member]
     # 引数に配列が指定された場合、配列の要素からルーティング名が推定される。
   end
+
+  def new
+    @staff_member = StaffMember.new
+  end
 end
