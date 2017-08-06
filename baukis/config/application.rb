@@ -21,18 +21,21 @@ module App
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
     config.i18n.load_path +=
-        Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}').to_s]
+      Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}').to_s]
     config.i18n.default_locale = :ja
 
     config.generators do |g|
-        g.helper false
-        g.assets false
-        g.test_framework :rspec
-        g.controller_specs false
-        g.view_specs false
+      g.helper false
+      g.assets false
+      g.test_framework :rspec
+      g.controller_specs false
+      g.view_specs false
     end
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    # セキュリティ強化策を一旦OFFにする
+    config.action_controller.permit_all_parameters = true
   end
 end
