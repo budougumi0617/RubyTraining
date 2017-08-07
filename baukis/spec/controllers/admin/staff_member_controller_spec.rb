@@ -2,5 +2,18 @@ require 'rails_helper'
 
 describe Admin::StaffMembersController do
   # atributes_for FactoryGirlのメソッド。ファクトリー名を引数に戻り値としてハッシュを返す。
-  let(:params_hash) {atributes_for(:staff_member)}
+  let(:params_hash) {attributes_for(:staff_member)}
+
+  describe '#create' do
+    example '職員一覧にリダイレクト' do
+      post :create, staff_member: params_hash # post 第一引数のメソッドに第二引数をPOSTで送信する。
+      expect(response).to redirect_to(admin_staff_members_url) # response アクションの実行結果を保持する。
+    end
+
+    example '例外ActionController::ParameterMissingが発生' do
+      bypass_rescue # rescue_fromによる例外処理を無効にする。
+      expect { post :create }.
+        to raise_error(ActionController::ParameterMissing)
+    end
+  end
 end
