@@ -24,7 +24,16 @@ describe Admin::StaffMembersController do
       params_hash.merge!(suspended: true)
       patch :update, id: staff_member.id, staff_member: params_hash
       staff_member.reload
-      expect(staff_member).to be_suspended
+      expect(staff_member).to be_suspended # be_XXX 述語マッチャー
     end
+
+    example 'hashed_passwordの値は書き換え不可' do
+      params_hash.delete(:password)
+      params_hash.merge!(hashed_password: 'x')
+      expect {
+        patch :update, id: staff_member.id, staff_member: params_hash
+      }.not_to change {staff_member.hashed_password.to_s } # change 実行前後の値を比較する
+    end
+
   end
 end
