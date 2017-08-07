@@ -16,4 +16,15 @@ describe Admin::StaffMembersController do
         to raise_error(ActionController::ParameterMissing)
     end
   end
+
+  describe '#update' do
+    let(:staff_member) { create(:staff_member) }
+
+    example 'suspendedフラグをセットする' do
+      params_hash.merge!(suspended: true)
+      patch :update, id: staff_member.id, staff_member: params_hash
+      staff_member.reload
+      expect(staff_member).to be_suspended
+    end
+  end
 end
