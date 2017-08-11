@@ -1,5 +1,6 @@
 class Staff::Base < ApplicationController
   before_action :authorize
+  before_action :check_account
 
   private
   def authorize
@@ -13,6 +14,14 @@ class Staff::Base < ApplicationController
     if session[:staff_member_id]
       @current_staff_member ||=
         StaffMember.find_by(id: session[:staff_member_id])
+    end
+  end
+
+  def check_account
+    if current_staff_member && !current_staff_member.active?
+      session.delete(:staff_member_id)
+      flash.alert = 'アカウントが無効になりました。'
+      redirect_to :staff_root
     end
   end
 
