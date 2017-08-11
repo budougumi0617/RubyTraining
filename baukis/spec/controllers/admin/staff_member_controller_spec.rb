@@ -1,5 +1,9 @@
 require 'rails_helper'
 
+describe Admin::StaffMembersController, 'ログイン前' do
+  it_behaves_like 'a protected admin controller' # 指定された名前の共有エグザンプルをこの場に取り込む
+end
+
 describe Admin::StaffMembersController do
   # atributes_for FactoryGirlのメソッド。ファクトリー名を引数に戻り値としてハッシュを返す。
   let(:params_hash) {attributes_for(:staff_member)}
@@ -8,7 +12,7 @@ describe Admin::StaffMembersController do
   before do
     session[:administrator_id] = administrator.id
   end
-  
+
   describe '#create' do
     example '職員一覧にリダイレクト' do
       post :create, staff_member: params_hash # post 第一引数のメソッドに第二引数をPOSTで送信する。
