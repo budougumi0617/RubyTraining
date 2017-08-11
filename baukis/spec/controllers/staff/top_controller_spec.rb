@@ -22,6 +22,7 @@ describe Staff::TopController, 'ログイン後' do
     end
 
     example 'セッションタイムアウト' do
+      # advanceメソッドで-1秒進めた(1秒前の)時刻を得て、セットする
       session[:last_access_time] =
         Staff::Base::TIMEOUT.ago.advance(seconds: -1)
       get :index
