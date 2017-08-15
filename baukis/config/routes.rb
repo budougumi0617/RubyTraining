@@ -18,11 +18,13 @@ Rails.application.routes.draw do
       get 'login' => 'sessions#new', as: :login
       resource :session, only: [:create, :destroy]
       # 各スタッフごとのイベント管理ページ
+      # resourceとresourcesの使い分けに気をつける。
+      # https://techracho.bpsinc.jp/baba/2014_03_03/15619
       resources :staff_members do
-        resource :staff_events, only: [ :index ]
+        resources :staff_events, only: [ :index ]
       end
       # 全スタッフのイベント管理ページ
-      resource :staff_events, only: [ :index ]
+      resources :staff_events, only: [ :index ]
     end
   end
 
