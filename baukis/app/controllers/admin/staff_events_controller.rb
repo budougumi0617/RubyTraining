@@ -6,6 +6,7 @@ class Admin::StaffEventsController < Admin::Base
     else
       @events = StaffEvent.order(occurred_at: :desc)
     end
+    @events = @events.includes(:member)
     @events = @events.page(params[:page]) # Relationオブジェクトを再検索して@eventsにセット。
   end
 end
