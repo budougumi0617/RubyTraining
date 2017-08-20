@@ -1,6 +1,8 @@
 class ModelPresenter
+  include HtmlBuilder
+
   attr_reader :object, :view_context
-  delegate :raw, to: :view_context # rawメソッドはview_contextに移譲
+  delegate :raw, :link_to, to: :view_context # rawメソッドはview_contextに移譲
 
   def initialize(object, view_context)
     @object = object
