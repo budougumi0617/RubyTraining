@@ -1,4 +1,4 @@
-$(document).on 'page:change', ->
+$(document).on 'turbolinks:load', ->
   $('form.edit_staff_member').on 'click', '#enable-password-field', ->
     $('#enable-password-field').hide()
     $('#disable-password-field').show()
