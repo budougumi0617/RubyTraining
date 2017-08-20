@@ -29,6 +29,9 @@ div#wrapper {
           input[type='raddio'] + label {
             display: inline-block;
           }
+        div.input-block {
+          input { margin-right: $narrow * 2; }
+        }
           div.notes {
             text-align: right;
             font-size: $small;
