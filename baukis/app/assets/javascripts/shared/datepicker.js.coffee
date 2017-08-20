@@ -1,4 +1,4 @@
-$(document).on 'page:change', ->
+$(document).on 'turbolinks:load', ->
   d = new Date()
   $.datepicker.setDefaults({
     dateFormat: "yy-mm-dd",
