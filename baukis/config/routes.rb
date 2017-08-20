@@ -8,7 +8,8 @@ Rails.application.routes.draw do
       root 'top#index'
       get 'login' => 'sessions#new', as: :login
       resource :session, only: [:create, :destroy]
-      resource :account, except: [:new, :create, :destroy]
+      resource :account, except: [:new, :create]
+      resource :password, only: [:show, :edit, :update]
     end
   end
 
@@ -21,10 +22,10 @@ Rails.application.routes.draw do
       # resourceとresourcesの使い分けに気をつける。
       # https://techracho.bpsinc.jp/baba/2014_03_03/15619
       resources :staff_members do
-        resources :staff_events, only: [ :index ]
+        resources :staff_events, only: [:index]
       end
       # 全スタッフのイベント管理ページ
-      resources :staff_events, only: [ :index ]
+      resources :staff_events, only: [:index]
     end
   end
 
