@@ -4,7 +4,7 @@ class Staff::CustomersController < Staff::Base
       .page(params[:page])
   end
 
-#  def show
-#    @customer = Customer.find(params[:id])
-#  end
+  def show
+    @customer = Customer.find(params[:id])
+  end
 end
