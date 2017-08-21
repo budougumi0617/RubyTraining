@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
+  # 参考ページ
+  # https://techracho.bpsinc.jp/baba/2014_03_03/15619
   config = Rails.application.config.baukis
 
   constraints host: config[:staff][:host] do
@@ -10,6 +12,7 @@ Rails.application.routes.draw do
       resource :session, only: [:create, :destroy]
       resource :account, except: [:new, :create]
       resource :password, only: [:show, :edit, :update]
+      resources :customers # 複数リソース。:id付きのURLが生成される。
     end
   end
 
