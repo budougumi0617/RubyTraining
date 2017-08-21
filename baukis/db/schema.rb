@@ -44,12 +44,6 @@ ActiveRecord::Schema.define(version: 20170821045143) do
 
   add_index "administrators", ["email_for_index"], name: "index_administrators_on_email_for_index", unique: true, using: :btree
 
-  create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
-    t.string   "value"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "customers", force: :cascade do |t|
     t.string   "email",            null: false
     t.string   "email_for_index",  null: false
@@ -95,5 +89,5 @@ ActiveRecord::Schema.define(version: 20170821045143) do
   add_index "staff_members", ["family_name_kana", "given_name_kana"], name: "index_staff_members_on_family_name_kana_and_given_name_kana", using: :btree
 
   add_foreign_key "addresses", "customers"
-  add_foreign_key "staff_events", "staff_members", name: "staff_events_staff_member_id_fk"
+  add_foreign_key "staff_events", "staff_members"
 end
