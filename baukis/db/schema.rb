@@ -11,10 +11,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170811092311) do
+ActiveRecord::Schema.define(version: 20170821045143) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "addresses", force: :cascade do |t|
+    t.integer  "customer_id",                null: false
+    t.string   "type",                       null: false
+    t.string   "postal_code",                null: false
+    t.string   "prefecture",                 null: false
+    t.string   "city",                       null: false
+    t.string   "address1",                   null: false
+    t.string   "address2",                   null: false
+    t.string   "company_name",  default: "", null: false
+    t.string   "division_name", default: "", null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "addresses", ["customer_id"], name: "index_addresses_on_customer_id", using: :btree
+  add_index "addresses", ["type", "customer_id"], name: "index_addresses_on_type_and_customer_id", unique: true, using: :btree
 
   create_table "administrators", force: :cascade do |t|
     t.string   "email",                           null: false
@@ -32,6 +49,23 @@ ActiveRecord::Schema.define(version: 20170811092311) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "customers", force: :cascade do |t|
+    t.string   "email",            null: false
+    t.string   "email_for_index",  null: false
+    t.string   "family_name",      null: false
+    t.string   "given_name",       null: false
+    t.string   "family_name_kana", null: false
+    t.string   "given_name_kana",  null: false
+    t.string   "gender"
+    t.date     "birthday"
+    t.string   "hashed_password"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "customers", ["email_for_index"], name: "index_customers_on_email_for_index", unique: true, using: :btree
+  add_index "customers", ["family_name_kana", "given_name_kana"], name: "index_customers_on_family_name_kana_and_given_name_kana", using: :btree
 
   create_table "staff_events", force: :cascade do |t|
     t.integer  "staff_member_id", null: false
@@ -60,5 +94,6 @@ ActiveRecord::Schema.define(version: 20170811092311) do
   add_index "staff_members", ["email_for_index"], name: "index_staff_members_on_email_for_index", unique: true, using: :btree
   add_index "staff_members", ["family_name_kana", "given_name_kana"], name: "index_staff_members_on_family_name_kana_and_given_name_kana", using: :btree
 
+  add_foreign_key "addresses", "customers"
   add_foreign_key "staff_events", "staff_members", name: "staff_events_staff_member_id_fk"
 end
