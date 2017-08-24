@@ -8,6 +8,12 @@ FactoryGirl.define do
     password 'pw'
     birthday Date.new(1970, 1, 1)
     gender 'male'
+    # モデルの関連付けを行う。
+    # associationメソッドの第1引数にファクトリー名前を指定している。
+    # strategyオプションを指定しないと、通常createで作成される。
+    # (buildならDBに保存されない。)
+    # buildメソッドで作られた各AddressオブジェクトはCustomerオブジェクトが保存される際に、
+    # 合わせて保存される。
     association :home_address, strategy: :build
     association :work_address, strategy: :build
   end
