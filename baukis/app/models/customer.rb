@@ -1,6 +1,7 @@
 class Customer < ActiveRecord::Base
   include EmailHolder
   include PersonalNameHolder
+  include PasswordHolder
 
   # autosave: true オブジェクトがDBに保存される際に、関連オブジェクトも自動保存される。
   has_one :home_address, dependent: :destroy, autosave: true # モデル間に1対1の相関関係をつける。
@@ -13,13 +14,4 @@ class Customer < ActiveRecord::Base
     before: ->(obj) { Date.today },
     allow_blank: true
   }
-
-
-  def password=(raw_password)
-    if raw_password.kind_of?(String)
-      self.hashed_password = BCrypt::Password.create(raw_password)
-    elsif raw_password.nil?
-      self.hashed_password = nil
-    end
-  end
 end

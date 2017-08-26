@@ -1,6 +1,7 @@
 class StaffMember < ActiveRecord::Base
   include EmailHolder
   include PersonalNameHolder
+  include PasswordHolder
 
   # :destroyを指定すると、関連づけられたすべてのStaffEventオブジェクトが、
   # StaffMemberオブジェクトが削除される前に削除される。
@@ -17,14 +18,6 @@ class StaffMember < ActiveRecord::Base
     before: ->(obj) { 1.year.from_now.to_date },
     allow_blank: true
   }
-
-  def password=(raw_password)
-    if raw_password.kind_of?(String)
-      self.hashed_password = BCrypt::Password.create(raw_password)
-    elsif raw_password.nil?
-      self.hashed_password = nil
-    end
-  end
 
   def active?
     !suspended? && start_date <= Date.today &&
