@@ -2,7 +2,7 @@ class Staff::CustomerForm
   include ActiveModel::Model
 
   attr_accessor :customer
-  delegate :persisted?, to: :customer # customer.persisted?が呼ばれる。
+  delegate :persisted?, :save, to: :customer # customer.persisted?が呼ばれる。
   # ヘルパーメソッドのform_forがフォーム送信時に使用するHTTPメソッドを
   # 決定するときにpersisted?メソッドが呼ばれる。戻り値が真であれば
   # HTTPメソッドはPATCHに、偽であればPOSTになる。
@@ -29,16 +29,27 @@ class Staff::CustomerForm
     customer.work_address.assign_attributes(work_address_params)
   end
 
+  # 以下はCustomerオブジェクトの宣言内でautosave: trueにしたので不要になった。
+  # def valid?
+  #   # { x, y, z }.map { |e| e.valid? }.all? と同じような書き方。
+  #   # &をシンボルにつけるとひとつの引数を取るブロックに変換される。
+  #   [ customer, customer.home_address, customer.work_address ]
+  #     .map(&:valid?).all?
+  # end
+
+  # delegateでsaveメソッドをCutomerに移譲したので不要になった。
   # 明示的に3つのオブジェクトを保存する。
-  def save
-    ActiveRecord::Base.transaction do # ブロック内をひとつのDB操作として担保できる。
-      # モデルオブジェクトのsave!メソッドは感嘆符なしのsaveメソッドと異なり、
-      # バリデーションに失敗すると例外ActiveRecord::RecordInvalidを発生させる。
-      customer.save!
-      customer.home_address.save!
-      customer.work_address.save!
-    end
-  end
+  # def save
+  #   if valid?
+  #    ActiveRecord::Base.transaction do # ブロック内をひとつのDB操作として担保できる。
+  #      # モデルオブジェクトのsave!メソッドは感嘆符なしのsaveメソッドと異なり、
+  #      # バリデーションに失敗すると例外ActiveRecord::RecordInvalidを発生させる。
+  #      customer.save!
+  #      customer.home_address.save!
+  #      customer.work_address.save!
+  #    end
+  #  end
+  # end
 
   private
 
