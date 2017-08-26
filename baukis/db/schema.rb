@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170821045143) do
+ActiveRecord::Schema.define(version: 20170826083139) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,12 @@ ActiveRecord::Schema.define(version: 20170821045143) do
 
   add_index "administrators", ["email_for_index"], name: "index_administrators_on_email_for_index", unique: true, using: :btree
 
+  create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
+    t.string   "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "customers", force: :cascade do |t|
     t.string   "email",            null: false
     t.string   "email_for_index",  null: false
@@ -60,6 +66,20 @@ ActiveRecord::Schema.define(version: 20170821045143) do
 
   add_index "customers", ["email_for_index"], name: "index_customers_on_email_for_index", unique: true, using: :btree
   add_index "customers", ["family_name_kana", "given_name_kana"], name: "index_customers_on_family_name_kana_and_given_name_kana", using: :btree
+
+  create_table "phones", force: :cascade do |t|
+    t.integer  "customer_id",                      null: false
+    t.integer  "address_id"
+    t.string   "number",                           null: false
+    t.string   "number_for_index",                 null: false
+    t.boolean  "primary",          default: false, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "phones", ["address_id"], name: "index_phones_on_address_id", using: :btree
+  add_index "phones", ["customer_id"], name: "index_phones_on_customer_id", using: :btree
+  add_index "phones", ["number_for_index"], name: "index_phones_on_number_for_index", using: :btree
 
   create_table "staff_events", force: :cascade do |t|
     t.integer  "staff_member_id", null: false
@@ -89,5 +109,7 @@ ActiveRecord::Schema.define(version: 20170821045143) do
   add_index "staff_members", ["family_name_kana", "given_name_kana"], name: "index_staff_members_on_family_name_kana_and_given_name_kana", using: :btree
 
   add_foreign_key "addresses", "customers"
+  add_foreign_key "phones", "addresses"
+  add_foreign_key "phones", "customers"
   add_foreign_key "staff_events", "staff_members"
 end
