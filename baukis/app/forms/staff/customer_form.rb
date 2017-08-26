@@ -32,6 +32,8 @@ class Staff::CustomerForm
   # 明示的に3つのオブジェクトを保存する。
   def save
     ActiveRecord::Base.transaction do # ブロック内をひとつのDB操作として担保できる。
+      # モデルオブジェクトのsave!メソッドは感嘆符なしのsaveメソッドと異なり、
+      # バリデーションに失敗すると例外ActiveRecord::RecordInvalidを発生させる。
       customer.save!
       customer.home_address.save!
       customer.work_address.save!
