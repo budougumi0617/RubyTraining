@@ -2,6 +2,8 @@ class Address < ActiveRecord::Base
   include StringNormalizer
 
   belongs_to :customer # :customerという名前でCustomerを参照する。
+  # ソート順を一定にするスコープを追加している。
+  has_many :phones, -> { order(:id) }, dependent: :destroy, autosave: true
 
   before_validation do
     self.postal_code = normalize_as_postal_code(postal_code)
