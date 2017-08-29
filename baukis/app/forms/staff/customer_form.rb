@@ -12,11 +12,19 @@ class Staff::CustomerForm
     @customer ||= Customer.new(gender: 'male')
     self.inputs_home_address = @customer.home_address.present?
     self.inputs_work_address = @customer.work_address.present?
+    (2 - @customer.personal_phones.size).times do
+      @customer.personal_phones.build
+    end
+    self.inputs_home_address = @customer.home_address.present?
+    self.inputs_work_address = @customer.work_address.present?
     @customer.build_home_address unless @customer.home_address
     @customer.build_work_address unless @customer.work_address
     # build_home_address, build_work_addressは初期状態の
     # 自分のオブジェクトをインスタンス化する。この段階では
     # データベースに保存されない。
+    (2 - @customer.home_address.phones.size).times do
+      @customer.home_address.phones.build
+    end
   end
 
   # 以下の様に利用する。params[:form]は:customerなどのキーをもつハッシュ。
