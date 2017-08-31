@@ -18,4 +18,13 @@ class Customer < ActiveRecord::Base
     before: ->(obj) { Date.today },
     allow_blank: true
   }
+
+  # 検索用カラムへ値を反映しておく。
+  before_save do
+    if birthday
+      self.birth_year = birthday.year
+      self.birth_month = birthday.month
+      self.birth_mday = birthday.mday
+    end
+  end
 end
