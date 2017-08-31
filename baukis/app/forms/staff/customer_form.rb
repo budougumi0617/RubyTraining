@@ -15,11 +15,13 @@ class Staff::CustomerForm
     end
     self.inputs_home_address = @customer.home_address.present?
     self.inputs_work_address = @customer.work_address.present?
-    @customer.build_home_address unless @customer.home_address
-    @customer.build_work_address unless @customer.work_address
     # build_home_address, build_work_addressは初期状態の
     # 自分のオブジェクトをインスタンス化する。この段階では
     # データベースに保存されない。
+    @customer.build_home_address unless @customer.home_address
+    @customer.build_work_address unless @customer.work_address
+    # 自宅電話番号の数が2個になるまでオブジェクトを関連付ける。
+    # personal_phonesにしている操作と同じ。
     (2 - @customer.home_address.phones.size).times do
       @customer.home_address.phones.build
     end
@@ -37,8 +39,6 @@ class Staff::CustomerForm
     customer.assign_attributes(customer_params)
 
     phones = phone_params(:customer).fetch(:phones)
-    # Permitがおかしい。
-    binding.pry
     customer.personal_phones.size.times do |index|
       attributes = phones[index.to_s]
       if attributes && attributes[:number].present?
@@ -50,6 +50,16 @@ class Staff::CustomerForm
 
     if inputs_home_address
       customer.home_address.assign_attributes(home_address_params)
+
+      phones = phone_params(:home_address).fetch(:phones)
+      customer.home_address.phones.size.times do |index|
+        attributes = phones[index.to_s]
+        if attributes && attributes[:number].present?
+          customer.home_address.phones[index].assign_attributes(attributes)
+        else
+          customer.home_address.phones[index].mark_for_destruction
+        end
+      end
     else
       # 削除対象というマーキングをする。
       # https://apidock.com/rails/ActiveRecord/AutosaveAssociation/mark_for_destruction
@@ -91,7 +101,7 @@ class Staff::CustomerForm
     @params.require(:customer).permit(
       :email, :password,
       :family_name, :given_name, :family_name_kana, :given_name_kana,
-      :birthday, :gender, :phones
+      :birthday, :gender
     )
   end
 
