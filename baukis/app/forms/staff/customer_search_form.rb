@@ -23,7 +23,7 @@ class Staff::CustomerSearchForm
 
     # テーブルを結合して、他のテーブルのカラムに基づいてレコードを絞り込む。
     # 単一テーブル継承で同じaddressテーブルに記録することにしたので、条件が単純で済んでいる。
-    if prefecture.present? || city.present?
+    if prefecture.present? || city.present? || postal_code.present?
       case address_type
       when 'home'
         rel = rel.joins(:home_address)
@@ -39,6 +39,9 @@ class Staff::CustomerSearchForm
         rel = rel.where('addresses.prefecture' => prefecture)
       end
       rel = rel.where('addresses.city' => city) if city.present?
+      if postal_code.present?
+        rel = rel.where('addresses.postal_code' => postal_code)
+      end
     end
 
     if phone_number.present?
@@ -54,6 +57,7 @@ class Staff::CustomerSearchForm
     self.family_name_kana = normalize_as_furigana(family_name_kana)
     self.given_name_kana = normalize_as_furigana(given_name_kana)
     self.city = normalize_as_name(city)
+    self.postal_code = normalize_as_postal_code(postal_code)
     self.phone_number = normalize_as_phone_number(phone_number)
       .try(:gsub, /\D/, '')
   end
