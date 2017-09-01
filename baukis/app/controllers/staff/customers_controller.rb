@@ -1,8 +1,9 @@
 class Staff::CustomersController < Staff::Base
   def index
-    @search_form = Staff::CustomerSearchForm.new
-    @customers = Customer.order(:family_name_kana, :given_name_kana)
-      .page(params[:page])
+    # フォームから送信されてくるパラメータにはプレフィックス(P415)としてsearchがついてくる。
+    @search_form = Staff::CustomerSearchForm.new(params[:search])
+    # searchメソッドの戻り値はRelationオブジェクト(P302)なのでページネーションできる。
+    @customers = @search_form.search.page(params[:page])
   end
 
   def show
