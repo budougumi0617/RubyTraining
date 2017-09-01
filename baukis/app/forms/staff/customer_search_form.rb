@@ -3,8 +3,9 @@ class Staff::CustomerSearchForm
   include StringNormalizer
 
   attr_accessor :family_name_kana, :given_name_kana,
-    :birth_year, :birth_month, :birth_mday,
-    :address_type, :prefecture, :city, :phone_number
+    :birth_year, :birth_month, :birth_mday, :gender,
+    :address_type, :prefecture, :city, :postal_code, :phone_number,
+    :last_four_digits
 
   def search
     normalize_values
@@ -20,6 +21,7 @@ class Staff::CustomerSearchForm
     rel = rel.where(birth_year: birth_year) if birth_year.present?
     rel = rel.where(birth_month: birth_month) if birth_month.present?
     rel = rel.where(birth_mday: birth_mday) if birth_mday.present?
+    rel = rel.where(gender: gender) if gender.present?
 
     # テーブルを結合して、他のテーブルのカラムに基づいてレコードを絞り込む。
     # 単一テーブル継承で同じaddressテーブルに記録することにしたので、条件が単純で済んでいる。
@@ -44,10 +46,17 @@ class Staff::CustomerSearchForm
       end
     end
 
-    if phone_number.present?
-      rel = rel.joins(:phones).where('phones.number_for_index' => phone_number)
+    if phone_number.present? || last_four_digits.present?
+      rel = rel.joins(:phones)
+      if phone_number.present?
+        rel = rel.where('phones.number_for_index' => phone_number)
+      end
+      if last_four_digits.present?
+        rel = rel.where('phones.last_four_digits' => last_four_digits)
+      end
     end
 
+    rel = rel.distinct
    # ソート順を決定する。orderメソッドもRelationオブジェクトを返す。
     rel.order(:family_name_kana, :given_name_kana)
   end
