@@ -18,6 +18,8 @@ Baukis is coded under MIT LICENCE by Tsutom Kuroda.
 Reference book is below.  
 [実践Ruby on Rails 4 現場のプロから学ぶ本格Webプログラミング](http://amazon.jp/dp/B00LBPDNSY).
 
+[実践Ruby on Rails 4 機能拡張編](http://amazon.jp/dp/B00MWK10CS).
+
 # References
 
 [Learn Ruby with the Edgecase Ruby Koans](http://rubykoans.com/)
@@ -29,3 +31,5 @@ Reference book is below.
 [たのしいRuby 第5版 Kindle版](http://amazon.jp/dp/B01C804DO8)
 
 [実践Ruby on Rails 4 現場のプロから学ぶ本格Webプログラミング](http://amazon.jp/dp/B00LBPDNSY).
+
+[実践Ruby on Rails 4 機能拡張編](http://amazon.jp/dp/B00MWK10CS).
