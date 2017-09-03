@@ -1,4 +1,5 @@
 class Staff::Base < ApplicationController
+  before_action :check_source_ip_address
   before_action :authorize
   before_action :check_account
   before_action :check_timeout
@@ -9,6 +10,10 @@ class Staff::Base < ApplicationController
       flash.alert = '職員としてログインしてください。'
       redirect_to :staff_login
     end
+  end
+
+  def check_source_ip_address
+    raise IpAddressRejected unless AllowedSource.include?('staff', request.ip)
   end
 
   def current_staff_member
