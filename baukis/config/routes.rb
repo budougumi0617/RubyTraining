@@ -29,6 +29,10 @@ Rails.application.routes.draw do
       end
       # 全スタッフのイベント管理ページ
       resources :staff_events, only: [:index]
+      # 許可IPアドレスの管理。一括削除を行うので、deleteアクションはコレクションルーティングとして設定している。
+      resources :allowed_sources, only: [ :index, :create ] do
+        delete :delete, on: :collection # idを指定しない感じ。
+      end
     end
   end
 
