@@ -2,17 +2,21 @@
 <h1><%= @title %></h1>
 
 <div id="generic-form" class="table-wrapper">
-    <table class="listing">
+  <div>
+    <%= render 'new_allowed_source' %>
+  </div>
+
+  <table class="listing">
+    <tr>
+      <th>IPアドレス</th>
+      <th>作成日時</th>
+    </tr>
+    <% @allowed_sources.each_with_index do |s, index| %>
+      <% p = AllowedSourcePresenter.new(s, self) %>
       <tr>
-        <th>IPアドレス</th>
-        <th>作成日時</th>
+        <td class="ip"><%= p.ip_address %></td>
+        <td class="date"><%= p.created_at %></td>
       </tr>
-      <% @allowed_sources.each_with_index do |s, index| %>
-        <% p = AllowedSourcePresenter.new(s, self) %>
-          <tr>
-            <td class="ip"><%= p.ip_address %></td>
-            <td class="date"><%= p.created_at %></td>
-         </tr>
-        <% end %>
-    </table>
+    <% end %>
+  </table>
 </div>

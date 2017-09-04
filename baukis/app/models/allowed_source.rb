@@ -1,10 +1,37 @@
 class AllowedSource < ActiveRecord::Base
+  attr_accessor :last_octet
+
+  # アスタリスクが設定されていた場合は、ワイルドカードをフラグを立てる。
+  before_validation do
+    if last_octet
+      self.last_octet.strip!
+      if last_octet == '*'
+        self.octet4 = 0
+        self.wildcard = true
+      else
+        self.octet4 = last_octet
+      end
+    end
+  end
+
   # まとめてvalidation設定
   validates :octet1, :octet2, :octet3, :octet4, presence: true,
     numericality: { only_integer: true, allow_blank: true },
     inclusion: { in: 0..255, allow_blank: true }
   validates :octet4,
     uniqueness: { scope: [ :octet1, :octet2, :octet3 ], allow_blank: true }
+  # 0-255以外に'*'も許可リストに加える。
+  validates :last_octet,
+    inclusion: { in: (0..255).to_a.map(&:to_s) + [ '*' ], allow_blank: true }
+
+  after_validation do
+    # octet4に対応する入力欄がフォーム上に存在しないため、last_octet属性のエラーとしてしまう。
+    if last_octet
+      errors[:octet4].each do |message|
+        errors.add(:last_octet, message)
+      end
+    end
+  end
 
   # 文字列でIPアドレスを指定できるようにする。
   def ip_address=(ip_address)
