@@ -1,5 +1,7 @@
 class AllowedSource < ActiveRecord::Base
-  attr_accessor :last_octet
+  # ERBファイル上で_destryの値を取得している。
+  # <td class="actions"><%= ff.check_box :_destroy %></td>
+  attr_accessor :last_octet, :_destroy
 
   # アスタリスクが設定されていた場合は、ワイルドカードをフラグを立てる。
   before_validation do
