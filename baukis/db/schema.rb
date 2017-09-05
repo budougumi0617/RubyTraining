@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170903062652) do
+ActiveRecord::Schema.define(version: 20170905003202) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -98,6 +98,18 @@ ActiveRecord::Schema.define(version: 20170903062652) do
   add_index "customers", ["gender", "family_name_kana", "given_name_kana"], name: "index_customers_on_gender_and_furigana", using: :btree
   add_index "customers", ["given_name_kana"], name: "index_customers_on_given_name_kana", using: :btree
 
+  create_table "entries", force: :cascade do |t|
+    t.integer  "program_id",                  null: false
+    t.integer  "customer_id",                 null: false
+    t.boolean  "approved",    default: false, null: false
+    t.boolean  "canceled",    default: false, null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "entries", ["customer_id"], name: "index_entries_on_customer_id", using: :btree
+  add_index "entries", ["program_id", "customer_id"], name: "index_entries_on_program_id_and_customer_id", unique: true, using: :btree
+
   create_table "phones", force: :cascade do |t|
     t.integer  "customer_id",                      null: false
     t.integer  "address_id"
@@ -113,6 +125,21 @@ ActiveRecord::Schema.define(version: 20170903062652) do
   add_index "phones", ["customer_id"], name: "index_phones_on_customer_id", using: :btree
   add_index "phones", ["last_four_digits"], name: "index_phones_on_last_four_digits", using: :btree
   add_index "phones", ["number_for_index"], name: "index_phones_on_number_for_index", using: :btree
+
+  create_table "programs", force: :cascade do |t|
+    t.integer  "registrant_id",              null: false
+    t.string   "title",                      null: false
+    t.text     "description"
+    t.datetime "application_start_time",     null: false
+    t.datetime "application_end_time",       null: false
+    t.integer  "min_number_of_participants"
+    t.integer  "max_number_of_participants"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "programs", ["application_start_time"], name: "index_programs_on_application_start_time", using: :btree
+  add_index "programs", ["registrant_id"], name: "index_programs_on_registrant_id", using: :btree
 
   create_table "staff_events", force: :cascade do |t|
     t.integer  "staff_member_id", null: false
@@ -142,7 +169,10 @@ ActiveRecord::Schema.define(version: 20170903062652) do
   add_index "staff_members", ["family_name_kana", "given_name_kana"], name: "index_staff_members_on_family_name_kana_and_given_name_kana", using: :btree
 
   add_foreign_key "addresses", "customers"
+  add_foreign_key "entries", "customers"
+  add_foreign_key "entries", "programs"
   add_foreign_key "phones", "addresses"
   add_foreign_key "phones", "customers"
+  add_foreign_key "programs", "staff_members", column: "registrant_id"
   add_foreign_key "staff_events", "staff_members"
 end

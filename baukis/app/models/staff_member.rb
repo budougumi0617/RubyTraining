@@ -6,6 +6,8 @@ class StaffMember < ActiveRecord::Base
   # :destroyを指定すると、関連づけられたすべてのStaffEventオブジェクトが、
   # StaffMemberオブジェクトが削除される前に削除される。
   has_many :events, class_name: 'StaffEvent', dependent: :destroy
+  has_many :programs, foreign_key: 'registrant_id',
+    dependent: :restrict_with_exception # プログラムを作成している職員が削除されようとしたときは例外を出す。
 
   validates :start_date, presence: true, date: {
     after_or_equal_to: Date.new(2000, 1, 1), # 指定された日を含む
@@ -22,5 +24,10 @@ class StaffMember < ActiveRecord::Base
   def active?
     !suspended? && start_date <= Date.today &&
       (end_date.nil? || end_date > Date.today)
+  end
+
+  # ひとつでもプログラムをもつ職員は削除してはいけない。
+  def deletable?
+    programs.empty?
   end
 end
