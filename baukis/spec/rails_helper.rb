@@ -26,11 +26,22 @@ RSpec.configure do |config|
   # instead of true.
   config.use_transactional_fixtures = true
   config.order = "random"
+  # パフォーマンステストは時間がかかるため、通常は実行しない。
+  config.filter_run_excluding :performance => true
 
   config.include FactoryGirl::Syntax::Methods
 
   config.before(:suite) do
       FactoryGirl.reload
+  end
+
+  # パフォーマンステストの精度を上げるため、チューニングしておく。
+  config.before(performance: true) do
+    # キャッシュを有効にする。
+    ActionController::Base.perform_caching = true
+    ActiveSupport::Dependencies.mechanism = :require
+    # ログ出力を削減する。
+    Rails.logger.level = ActiveSupport::Logger::INFO
   end
 
   config.after do
