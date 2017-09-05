@@ -29,21 +29,22 @@ div#wrapper {
           input[type='raddio'] + label {
             display: inline-block;
           }
-          div.input-block {
-            input { margin-right: $narrow * 2; }
+          span.instruction { font-size: $small; color: $dark_gray; }
+        }
+        div.input-block {
+          input { margin-right: $narrow * 2; }
+        }
+        div.notes {
+          text-align: right;
+          font-size: $small;
+          span.mark {
+            color: $red;
           }
-          div.notes {
-            text-align: right;
-            font-size: $small;
-            span.mark {
-              color: $red;
-            }
-          }
-          div.buttons {
-            text-align: center;
-            input[type='submit'] {
-              padding: $wide $very_wide;
-            }
+        }
+        div.buttons {
+          text-align: center;
+          input[type='submit'] {
+            padding: $wide $very_wide;
           }
         }
         div.field_with_errors {

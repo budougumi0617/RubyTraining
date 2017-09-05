@@ -6,6 +6,11 @@ class Program < ActiveRecord::Base
   # ２つの関連づけを合成して、:applicantsという新しい関連を定義する。
   has_many :applicants, through: :entries, source: :customer
   belongs_to :registrant, class_name: 'StaffMember'
+
+  attr_accessor :application_start_date, :application_start_hour,
+    :application_start_minute, :application_end_date, :application_end_hour,
+    :application_end_minute
+
   # スコープを使って検索条件を束縛しておく。
   # 第二引数はProcオブジェクト。引数無しなのでこんな感じ
   scope :listing, -> {
