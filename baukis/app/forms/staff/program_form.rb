@@ -38,6 +38,7 @@ class Staff::ProgramForm
 
   private
   def program_params
+    # Strong Parametersでフィルタリング
     @params.require(:program).permit(
       :title, :description, :application_start_date, :application_start_hour,
       :application_start_minute, :application_end_date, :application_end_hour,
