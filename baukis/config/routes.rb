@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       resource :account, except: [:new, :create]
       resource :password, only: [:show, :edit, :update]
       resources :customers # 複数リソース。:id付きのURLが生成される。
+      resources :programs
     end
   end
 
