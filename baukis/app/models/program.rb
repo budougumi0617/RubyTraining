@@ -1,7 +1,7 @@
 class Program < ActiveRecord::Base
   # 1対多の関連付けを設定している。
   # (Program::destroyが呼ばれたとき、子のEntryもdestroyする。)
-  has_many :entries, dependent: :destroy
+  has_many :entries, dependent: :restrict_with_exception
   # 上で定義されている:entriesを使うと、Entoryで定義されている:customerにアクセスできるので、
   # ２つの関連づけを合成して、:applicantsという新しい関連を定義する。
   has_many :applicants, through: :entries, source: :customer
@@ -42,11 +42,19 @@ class Program < ActiveRecord::Base
     only_integer: true, greater_than_or_equal_to: 1,
     less_than_or_equal_to: 1000, allow_blank: true
   }
+  validates :max_number_of_participants, numericality: {
+    only_integer: true, greater_than_or_equal_to: 1,
+    less_than_or_equal_to: 1000, allow_blank: true
+  }
   validate do
     if min_number_of_participants && max_number_of_participants &&
         min_number_of_participants > max_number_of_participants
       errors.add(:max_number_of_participants, :less_than_min_number)
     end
+  end
+
+  def deletable?
+    entries.empty?
   end
 
   private

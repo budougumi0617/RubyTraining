@@ -43,8 +43,21 @@ class Staff::ProgramsController < Staff::Base
 
   def destroy
     program = Program.find(params[:id])
-    program.destroy!
-    flash.notice = 'プログラムを削除しました。'
+    if program.deletable?
+      program.destroy!
+      flash.notice = 'プログラムを削除しました。'
+    else
+      flash.alert = 'このプログラムは削除できません。'
+    end
+    redirect_to :staff_programs
+  end
+
+  # PATCH
+  def entries
+    entries_form = Staff::EntriesForm.new(Program.find(params[:id]))
+    entries_form.assign_attributes(params[:form])
+    entries_form.save
+    flash.notice = 'プログラム申し込みのフラグを更新しました。'
     redirect_to :staff_programs
   end
 end
