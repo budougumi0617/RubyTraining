@@ -24,6 +24,11 @@ class Program < ActiveRecord::Base
       .includes(:registrant)
   }
 
+  scope :published, -> {
+    where( 'application_start_time <= ?', Time.current)
+      .order(application_start_time: :desc)
+  }
+
   validates :title, presence: true, length: { maximum: 32 }
   validates :description, presence: true, length: { maximum: 800 }
   validates :application_start_date, :application_end_date, date_string: true
