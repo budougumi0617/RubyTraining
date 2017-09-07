@@ -7,6 +7,10 @@ class Customer::EntryAcceptor
     raise if Time.current < program.application_start_time
     return :closed if Time.current >= program.application_end_time
     ActiveRecord::Base.transaction do
+      # トランザクションを始めた後、対象のモデルオブジェクトの
+      # インスタンスメソッドのlock!を呼ぶことでテーブルレコードの排他的ロックを取得できる。
+      # ロックはトランザクションが終了するまで続く。
+      # ただし、これはモデル間に正しく外部キー制約を設定している場合に限る。
       program.lock!
       if program.entries.where(customer_id: @customer.id).exists?
         return :accepted
