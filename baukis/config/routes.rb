@@ -10,7 +10,9 @@ Rails.application.routes.draw do
       root 'top#index'
       get 'login' => 'sessions#new', as: :login
       resource :session, only: [:create, :destroy]
-      resource :account, except: [:new, :create]
+      resource :account, except: [:new, :create] do
+        patch :confirm
+      end
       resource :password, only: [:show, :edit, :update]
       resources :customers # 複数リソース。:id付きのURLが生成される。
       resources :programs do
