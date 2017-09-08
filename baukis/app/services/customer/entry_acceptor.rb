@@ -12,6 +12,7 @@ class Customer::EntryAcceptor
       # ロックはトランザクションが終了するまで続く。
       # ただし、これはモデル間に正しく外部キー制約を設定している場合に限る。
       program.lock!
+      # 二重申し込み防止。
       if program.entries.where(customer_id: @customer.id).exists?
         return :accepted
       elsif max = program.max_number_of_participants
