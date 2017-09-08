@@ -2,7 +2,7 @@ class Customer::AccountForm
   include ActiveModel::Model
 
   attr_accessor :customer, :inputs_home_address, :inputs_work_address
-  delegate :persisted?, :save, to: :customer # customer.persisted?が呼ばれる。
+  delegate :persisted?, :valid?, :save, to: :customer # customer.persisted?が呼ばれる。
   # ヘルパーメソッドのform_forがフォーム送信時に使用するHTTPメソッドを
   # 決定するときにpersisted?メソッドが呼ばれる。戻り値が真であれば
   # HTTPメソッドはPATCHに、偽であればPOSTになる。
@@ -35,8 +35,8 @@ class Customer::AccountForm
   # こうすることで、バリデーションを経由することができる。
   def assign_attributes(params = {})
     @params = params
-    self.inputs_home_address = params[:inputs_home_address] == '1'
-    self.inputs_work_address = params[:inputs_work_address] == '1'
+    self.inputs_home_address = params[:inputs_home_address].in? [ '1', 'true' ]
+    self.inputs_work_address = params[:inputs_work_address].in? [ '1', 'true' ]
 
     customer.assign_attributes(customer_params)
 

@@ -18,7 +18,7 @@ class FormPresenter
   end
 
   def text_field_block(name, label_text, options = {})
-    markup(:div, class: 'input-block') do |m|
+    markup(:div) do |m|
       m << decorated_label(name, label_text, options)
       m << text_field(name, options)
       if options[:maxlength]

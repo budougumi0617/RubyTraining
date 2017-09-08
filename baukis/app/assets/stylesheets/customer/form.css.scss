@@ -26,6 +26,9 @@ div#wrapper {
           input[type='checkbox']+label { display: inline-block }
           input[type='radio']+label { display: inline-block }
           span.instruction { font-size: $small; color: $dark_gray; }
+          div.field-value { margin-left: $wide; font-weight: bold; }
+          div.readonly { color: $dark-gray; }
+          span.field-value { font-weight: bold; }
         }
         div.input-block {
           input { margin-right: $narrow * 2; }

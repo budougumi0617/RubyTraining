@@ -1,4 +1,5 @@
 $(document).on 'turbolinks:load', ->
+  return if $('div.confirming').length
   toggle_home_address_fields()
   toggle_work_address_fields()
   $('input#form_inputs_home_address').on 'click', ->
