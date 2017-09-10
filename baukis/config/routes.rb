@@ -22,6 +22,10 @@ Rails.application.routes.draw do
       # アクションは問い合わせ一覧、送信一覧、ゴミ箱、を表示する。
       resources :messages, only: [ :index, :show, :destroy ] do
         get :inbound, :outbound, :deleted, :count, on: :collection
+        # 返信用のルーティング
+        resource :reply, only: [ :new, :create ] do
+          post :confirm
+        end
       end
     end
   end
