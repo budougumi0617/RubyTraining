@@ -15,4 +15,8 @@ class Message < ActiveRecord::Base
       self.root = parent.root || parent
     end
   end
+
+  # 検索時にデフォルトで適用されるスコープ。なお、この検索条件はunscopeメソッドで打ち消せる。
+  # ソートの順序を上書きするには、reorderメソッドを用いる。
+  default_scope { order(created_at: :desc) }
 end
