@@ -16,6 +16,13 @@ class Customer < ActiveRecord::Base
   # has_manyの引数を単数形にした形がsourceオプションの値と等しい場合はsourceオプションを省略することができる。
   # has_many :programs, through: :entries, source: :program
   has_many :programs, through: :entries
+  has_many :messages
+  # 顧客が送信したメッセージ。
+  has_many :outbound_messages, class_name: 'CustomerMessage',
+    foreign_key: 'customer_id'
+  # 職員から受け取ったメッセージ。
+  has_many :inbound_messages, class_name: 'StaffMessage',
+    foreign_key: 'customer_id'
 
   # ActiveRecordのモデルに対するバリデーション
   validates :gender, inclusion: { in: %w(male female), allow_blank: true }
