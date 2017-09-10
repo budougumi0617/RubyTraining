@@ -4,6 +4,8 @@ class Message < ActiveRecord::Base
   belongs_to :staff_member
   belongs_to :root, class_name: 'Message', foreign_key: 'root_id'
   belongs_to :parent, class_name: 'Message', foreign_key: 'parent_id'
+  # あるメッセージに対する返信の集合を返す。
+  has_many :children, class_name: 'Message', foreign_key: 'parent_id'
 
   validates :subject, :body, presence: true
   validates :subject, length: { maximum: 80, allow_blank: true }
