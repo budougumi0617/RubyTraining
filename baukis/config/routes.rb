@@ -18,6 +18,11 @@ Rails.application.routes.draw do
       resources :programs do
         patch :entries, on: :member # 集合的に扱う場合は on: :collection
       end
+      # メッセージの件数を集計する。
+      # countアクションしか追加しない（基本7アクションは存在しない）ため、空配列を指定している。
+      resources :messages, only: [] do
+        get :count, on: :collection
+      end
     end
   end
 

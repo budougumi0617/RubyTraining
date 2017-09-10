@@ -9,4 +9,8 @@ Rails.application.config.assets.version = '1.0'
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
 # Rails.application.config.assets.precompile += %w( search.js )
-Rails.application.config.assets.precompile += %w( admin.css staff.css customer.css admin.js staff.js customer.js )
+Rails.application.config.assets.precompile +=
+  %w( admin.css staff.css customer.css admin.js staff.js customer.js )
+
+# ルーティングで定義されるヘルパーメソッド(root_pathなど)をapp/assets内のファイルの中でも使えるようにする。
+Sprockets::Context.send(:include, Rails.application.routes.url_helpers)
