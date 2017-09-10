@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170909002546) do
+ActiveRecord::Schema.define(version: 20170910031418) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,12 +61,6 @@ ActiveRecord::Schema.define(version: 20170909002546) do
 
   add_index "allowed_sources", ["namespace", "octet1", "octet2", "octet3", "octet4"], name: "index_allowed_sources_on_namespace_and_octets", unique: true, using: :btree
 
-  create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
-    t.string   "value"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "customers", force: :cascade do |t|
     t.string   "email",            null: false
     t.string   "email_for_index",  null: false
@@ -109,6 +103,13 @@ ActiveRecord::Schema.define(version: 20170909002546) do
 
   add_index "entries", ["customer_id"], name: "index_entries_on_customer_id", using: :btree
   add_index "entries", ["program_id", "customer_id"], name: "index_entries_on_program_id_and_customer_id", unique: true, using: :btree
+
+  create_table "message_tag_links", force: :cascade do |t|
+    t.integer "message_id", null: false
+    t.integer "tag_id",     null: false
+  end
+
+  add_index "message_tag_links", ["message_id", "tag_id"], name: "index_message_tag_links_on_message_id_and_tag_id", unique: true, using: :btree
 
   create_table "messages", force: :cascade do |t|
     t.integer  "customer_id",                     null: false
@@ -192,6 +193,12 @@ ActiveRecord::Schema.define(version: 20170909002546) do
 
   add_index "staff_members", ["email_for_index"], name: "index_staff_members_on_email_for_index", unique: true, using: :btree
   add_index "staff_members", ["family_name_kana", "given_name_kana"], name: "index_staff_members_on_family_name_kana_and_given_name_kana", using: :btree
+
+  create_table "tags", force: :cascade do |t|
+    t.string "value", null: false
+  end
+
+  add_index "tags", ["value"], name: "index_tags_on_value", unique: true, using: :btree
 
   add_foreign_key "addresses", "customers"
   add_foreign_key "entries", "customers"
