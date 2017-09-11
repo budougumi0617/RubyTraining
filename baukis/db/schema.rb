@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170910031418) do
+ActiveRecord::Schema.define(version: 20170911002836) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,6 +61,12 @@ ActiveRecord::Schema.define(version: 20170910031418) do
 
   add_index "allowed_sources", ["namespace", "octet1", "octet2", "octet3", "octet4"], name: "index_allowed_sources_on_namespace_and_octets", unique: true, using: :btree
 
+  create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
+    t.string   "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "customers", force: :cascade do |t|
     t.string   "email",            null: false
     t.string   "email_for_index",  null: false
@@ -103,6 +109,16 @@ ActiveRecord::Schema.define(version: 20170910031418) do
 
   add_index "entries", ["customer_id"], name: "index_entries_on_customer_id", using: :btree
   add_index "entries", ["program_id", "customer_id"], name: "index_entries_on_program_id_and_customer_id", unique: true, using: :btree
+
+  create_table "hash_locks", force: :cascade do |t|
+    t.string   "table",      null: false
+    t.string   "column",     null: false
+    t.string   "key",        null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "hash_locks", ["table", "column", "key"], name: "index_hash_locks_on_table_and_column_and_key", unique: true, using: :btree
 
   create_table "message_tag_links", force: :cascade do |t|
     t.integer "message_id", null: false
