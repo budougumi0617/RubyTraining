@@ -13,4 +13,13 @@ class Array
   def self.array_times_100!(a)
     a.collect!{|i| i * 100 }
   end
+
+  def self.arrays
+    ary = (1..100).to_a
+    result = Array.new
+    10.times do |i|
+      result << ary[i*10, 10]
+    end
+    result
+  end
 end
