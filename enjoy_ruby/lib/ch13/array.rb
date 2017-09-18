@@ -14,6 +14,7 @@ class Array
     a.collect!{|i| i * 100 }
   end
 
+  # 10要素ずつの複数配列を返す。
   def self.arrays
     ary = (1..100).to_a
     result = Array.new
