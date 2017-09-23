@@ -1,4 +1,6 @@
 class Prime
+  
+  # Validate prime or not.
   def self.prime?(num)
     return false if num < 2
     2.upto(Math.sqrt(num)) do |i|
